@@ -146,18 +146,28 @@ function selectNewProfile() {
         printCurrentProfiles();
         const profNum = profilesData.profiles.length;
         process.stdout.write(`Please select profile number: `);
-        readLine("utf8")
-            .then(input => {
-            const numVal = Number(input);
-            if (isNaN(numVal) || numVal < 1 || numVal > profNum) {
-                reject("Invalid profile number");
-                return;
-            }
-            resolve(numVal);
-        })
-            .catch(() => {
-            reject("Can't read input");
-        });
+		if (process.argv.length() > 2) {
+		  const numVal = Number(process.argv[2]);
+		  if (isNaN(numVal) || numVal < 1 || numVal > profNum) {
+		    reject("Invalid profile number");
+		    return;
+		  }
+		  resolve(numVal);
+		}
+		else {
+          readLine("utf8")
+              .then(input => {
+              const numVal = Number(input);
+              if (isNaN(numVal) || numVal < 1 || numVal > profNum) {
+                  reject("Invalid profile number");
+                  return;
+              }
+              resolve(numVal);
+          })
+              .catch(() => {
+              reject("Can't read input");
+          });
+		}
     });
 }
 function printCurrentProfiles() {
